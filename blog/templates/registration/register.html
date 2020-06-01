@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+    <div class='jumbotron'>
+        <h2>Please Login</h2>
+        {% if user_form.errors %}
+            <p>Your username or password didnt match! Please try again.</p>
+        {% endif %}
+
+        <form action='{% url 'register' %}' method='post'>
+        {% csrf_token %}
+            {{user_form.as_p}}
+            <input type='submit' value='Register'>
+        </form>
+        <a href="{% url 'login' %}">Already User, Sign In here!</a>
+    </div>
+{% endblock  %}

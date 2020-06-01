@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% block body_block %}
+    <div>
+    <h2 class='title-post-main'>Posts</h2>
+    {% for post in post_list %}
+
+        <div class='post'>
+            <a href="{% url 'post_detail' pk=post.pk %}">
+            <h2>{{post.title}}</h2>
+            <div class='post-author'>Published by, <span>{{post.author}}</span></div>
+            
+            <div class='post-text'>{{post.text|truncatechars:200}}</div>
+            <div class='post-footer'>
+            <div class='post-date'><i class="fas fa-calendar-check"></i> {{post.published_date|date:"D M Y"}}</div>        
+            <div class='post-comment' href="{% url 'post_detail' pk=post.pk %}"> <i class="fas fa-comments"></i> {{post.comments.count}}  comments </div>
+            </div>
+            <hr style='background-color:white'>
+            </a>
+        </div>
+
+    {% endfor %}
+    </div>
+{% endblock  %}

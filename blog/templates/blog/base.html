@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+
+    <link href="{% static 'css/css/all.css' %}" rel="stylesheet"> <!--load all styles -->
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300display=swap" rel="stylesheet">
+    <link rel='stylesheet' href="{% static 'css/blog.css' %}" >
+    <title>Blog</title>
+</head>
+<body>
+    <nav>
+            <div class='home-logo'><a href="{% url 'post_list' %}">My Blog</a></div>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li><a href="{% url 'post_draft_list' %}">Drafts</a></li>
+            <li><a href="{% url 'post_new' %}"><i class="fas fa-pencil-alt"></i> Write a Post</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}"> <i class="fas fa-sign-in-alt"></i> Login</a></li>
+            {% endif %}            
+        </ul>
+        
+            {% if user.is_authenticated %}
+            <div class='user-wellcome'><i class="fas fa-user-circle"></i> <span style='font-weight:600'>{{user.username}}</span></div>
+            {% endif %}            
+
+
+    </nav>
+    <div class='container'>
+    {% block body_block %}
+    {% endblock  %}
+    <div>
+</body>
+</html>

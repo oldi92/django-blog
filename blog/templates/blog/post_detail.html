@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+{% block body_block %}
+    <div>
+        <h2>{{post.title}}</h2>
+        {% if user.is_superuser or user == post.author %}
+                <a href="{% url 'post_remove' pk=post.pk %}">Remove Post</a>
+            {% endif %}
+        {% if post.published_date %}
+         <div>{{post.published_date}}</div>
+        {% else %}
+            {% if user.is_superuser %}
+                <a href="{% url 'post_publish' pk=post.pk %}">Publish Post</a>
+                <a href="{% url 'post_remove' pk=post.pk %}">Remove Post</a>
+            {% endif %}
+        {% endif %}
+
+        <p>{{post.text|safe|linebreaksbr}}</p>
+        <p>Author: {{post.author}}</p>
+
+        <hr>
+
+        {% if  user.is_authenticated  %}
+            <a href="{% url 'add_comments_to_post' pk=post.pk %}">Add Comment</a>
+        {% endif %}
+
+        <div>
+            {% for comment in post.comments.all %}
+            <br>
+                {{comment.created_date}}
+                
+
+                    {% if  user == comment.author  %}
+                       <a href="{% url 'comment_remove' pk=comment.pk %}">Remove</a>
+                    {% endif %}
+
+                <p>{{comment.text|safe|linebreaksbr}}</p>
+                <p>Posted By: {{comment.author}}</p>
+
+                {% empty %}
+                <p>There are no comments yet!</p>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock  %}
