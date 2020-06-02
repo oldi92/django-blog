@@ -8,13 +8,12 @@
             <a href="{% url 'post_detail' pk=post.pk %}">
             <h2>{{post.title}}</h2>
             <div class='post-author'>Published by, <span>{{post.author}}</span></div>
-            
-            <div class='post-text'>{{post.text|truncatechars:200}}</div>
+            <div class='post-text'>Text:<br>{{post.text|truncatechars:200}}</div>
             <div class='post-footer'>
-            <div class='post-date'><i class="fas fa-calendar-check"></i> {{post.published_date|date:"D M Y"}}</div>        
-            <div class='post-comment' href="{% url 'post_detail' pk=post.pk %}"> <i class="fas fa-comments"></i> {{post.comments.count}}  comments </div>
+            <div class='post-date'><i style='color:#00b1cc;' class="fas fa-calendar-check"></i> {{post.published_date|date:"D M Y"}}</div>        
+            <div class='post-comment' > <i style='color:#00b1cc;' class="fas fa-comments"></i> {{post.comments.count}}  comments </div>
             </div>
-            <hr style='background-color:white'>
+            <hr style='background-color:#00b1cc'>
             </a>
         </div>
 

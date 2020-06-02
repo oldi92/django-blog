@@ -20,11 +20,13 @@
         <ul>
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% if user.is_superuser %}
             <li><a href="{% url 'post_draft_list' %}">Drafts</a></li>
-            <li><a href="{% url 'post_new' %}"><i class="fas fa-pencil-alt"></i> Write a Post</a></li>
+            {% endif %}
             {% else %}
             <li><a href="{% url 'login' %}"> <i class="fas fa-sign-in-alt"></i> Login</a></li>
             {% endif %}            
+            <li><a href="{% url 'post_new' %}"><i class="fas fa-pencil-alt"></i> Write a Post</a></li>
         </ul>
         
             {% if user.is_authenticated %}

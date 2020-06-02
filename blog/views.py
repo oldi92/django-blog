@@ -17,7 +17,7 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-@login_required(login_url='account/login')
+@login_required(login_url='login')
 def createPostView(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -75,15 +75,9 @@ def add_comments_to_post(request,pk):
                 return redirect('post_detail', pk=post.pk)
         else:
             form=CommentForm()
-        return render(request,'blog/comment_form.html',{'form': form})
+        return render(request,'blog/comment_form.html',{'form': form, 'pk':pk})
     else:
         return redirect('post_list')
-
-#@login_required
-#def comment_approve(request, pk):
-#    comment = get_object_or_404(Comment, pk=pk)
-#    comment.approve()
-#    return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request,pk):

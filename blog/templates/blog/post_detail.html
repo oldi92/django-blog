@@ -1,45 +1,49 @@
 {% extends 'blog/base.html' %}
 {% block body_block %}
-    <div>
-        <h2>{{post.title}}</h2>
+    <div class='container container-detail'>
         {% if user.is_superuser or user == post.author %}
-                <a href="{% url 'post_remove' pk=post.pk %}">Remove Post</a>
+            <div class='post-detail-remove'>
+                <a href="{% url 'post_remove' pk=post.pk %}"><i style='color:red'
+                       class="fas fa-trash-alt"></i> Delete Post</a>
+            </div>
             {% endif %}
+        <div class='post-detail-title'>{{post.title}}</div>
+        <div class='post-detail-author'>Published by,<span> {{post.author}}</span></div>
         {% if post.published_date %}
-         <div>{{post.published_date}}</div>
+         <div class='post-detail-publish'><i style='color:#00b1cc;' class="fas fa-calendar-check"></i> {{post.published_date|date:'d M Y'}}</div>
         {% else %}
             {% if user.is_superuser %}
-                <a href="{% url 'post_publish' pk=post.pk %}">Publish Post</a>
-                <a href="{% url 'post_remove' pk=post.pk %}">Remove Post</a>
+                <a class='post-detail-admin-publish' href="{% url 'post_publish' pk=post.pk %}">Publish Post</a>
+                <a class='post-detail-admin-remove' href="{% url 'post_remove' pk=post.pk %}">Remove Post</a>
             {% endif %}
         {% endif %}
 
-        <p>{{post.text|safe|linebreaksbr}}</p>
-        <p>Author: {{post.author}}</p>
+        <p class='post-detail-text'>{{post.text|safe|linebreaksbr}}</p>
 
-        <hr>
+        <hr style='background-color:#00b1cc'>
 
         {% if  user.is_authenticated  %}
-            <a href="{% url 'add_comments_to_post' pk=post.pk %}">Add Comment</a>
+            <a class='post-detail-add-comment' href="{% url 'add_comments_to_post' pk=post.pk %}"><i style='color:#00b1cc;' class="fas fa-comments"></i>   Add Comment!</a>
         {% endif %}
 
-        <div>
             {% for comment in post.comments.all %}
-            <br>
-                {{comment.created_date}}
-                
-
-                    {% if  user == comment.author  %}
-                       <a href="{% url 'comment_remove' pk=comment.pk %}">Remove</a>
+                <div class='post-detail-comment'>
+                <div class='post-detail-comment-top'>
+                    <div class='post-detail-comment-author'>Posted By: <span>{{comment.author}}</span></div>
+                    {% if  user == comment.author or user.is_superuser  %}
+                        <div class='post-detail-comment-remove'>
+                       <a href="{% url 'comment_remove' pk=comment.pk %}"><i style='color:red'
+                       class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
                     {% endif %}
+                    <div class='post-detail-comment-date'>{{comment.create_date|date:'d M Y'}}</div>
+                </div>               
 
-                <p>{{comment.text|safe|linebreaksbr}}</p>
-                <p>Posted By: {{comment.author}}</p>
-
+                <div class='post-detail-comment-text'>{{comment.text|safe|linebreaksbr}}</div>
+                    
                 {% empty %}
-                <p>There are no comments yet!</p>
-
+                <div class='post-detail-comment-no-comment'>There are no comments yet!</div >
+                </div>               
             {% endfor %}
-        </div>
     </div>
 {% endblock  %}
